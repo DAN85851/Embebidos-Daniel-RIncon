@@ -371,4 +371,5 @@ Sistema de archivos virtual que permite configurar el kernel en tiempo de ejecuc
 
 ---
 
-Este documento resume todo el proceso de construcción de un sistema Linux embebido desde cero, mostrando que cada capa del sistema (bootloader, kernel, rootfs) tiene un propósito específico y debe configurarse correctamente para que el sistema funcione como un todo integrado.
+Este documento resume todo el proceso de construcción de un sistema Linux embebido desde cero(con todo y sufrimeinto), mostrando que cada capa del sistema (bootloader, kernel, rootfs) tiene un propósito específico y debe configurarse correctamente para que el sistema funcione como un todo integrado.
+Tambien la experencia de manejar un procesador casi desde los simientos es de gran aprenizaje con un poco sangre :v
