@@ -1,0 +1,8 @@
+
+[:python_version < "3.11"]
+typing_extensions>=4
+
+[tests]
+pytest
+pytest-asyncio
+mypy>=0.800

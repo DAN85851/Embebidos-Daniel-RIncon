@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nn_runner ./mobilenet_v2_rgb_224_int8.mud ./cat_224.jpg $1

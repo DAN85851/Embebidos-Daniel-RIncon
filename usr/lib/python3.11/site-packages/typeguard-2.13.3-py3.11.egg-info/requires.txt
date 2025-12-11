@@ -1,0 +1,11 @@
+
+[doc]
+sphinx_rtd_theme
+sphinx-autodoc-typehints>=1.2.0
+
+[test]
+pytest
+typing_extensions
+
+[test:platform_python_implementation != "PyPy"]
+mypy

@@ -1,0 +1,13 @@
+# Directorios de sistema que son volátiles o no deben ser versionados
+/dev
+/proc
+/sys
+/tmp
+/run
+# Archivos grandes o binarios que se generan en tiempo de ejecución
+/var/cache
+/var/log
+/var/tmp
+/var/backups
+/lib/modules
+/usr/share/doc/*

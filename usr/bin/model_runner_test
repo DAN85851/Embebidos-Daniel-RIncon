@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd $(dirname $(realpath $0))
+export LD_LIBRARY_PATH=./lib
+./model_runner --model ./resize_net_3_int8.cvimodel --enable-timer --count ${1}

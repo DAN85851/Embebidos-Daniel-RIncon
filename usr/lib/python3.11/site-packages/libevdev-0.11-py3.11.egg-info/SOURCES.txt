@@ -1,0 +1,17 @@
+COPYING
+README.md
+setup.cfg
+setup.py
+libevdev/__init__.py
+libevdev/_clib.py
+libevdev/const.py
+libevdev/device.py
+libevdev/event.py
+libevdev.egg-info/PKG-INFO
+libevdev.egg-info/SOURCES.txt
+libevdev.egg-info/dependency_links.txt
+libevdev.egg-info/top_level.txt
+test/test_clib.py
+test/test_const.py
+test/test_device.py
+test/test_events.py

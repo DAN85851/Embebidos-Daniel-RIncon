@@ -1,0 +1,21 @@
+six>=1.12.0
+
+[:python_version < "3.5"]
+typing
+
+[astroid]
+
+[astroid:python_version < "3"]
+astroid<2,>=1
+
+[astroid:python_version >= "3"]
+astroid<4,>=2
+
+[test]
+pytest
+
+[test:python_version < "3"]
+astroid<2,>=1
+
+[test:python_version >= "3"]
+astroid<4,>=2

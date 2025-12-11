@@ -1,0 +1,3 @@
+#!/bin/sh
+
+nn_yolov5 ./yolov5s_244-int8.mud

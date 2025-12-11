@@ -1,0 +1,17 @@
+
+[docs]
+furo>=2020.11.19b18
+sphinx~=3.0
+sphinx-autodoc-typehints>=1.10
+sphinxcontrib-trio>=1.1.0
+
+[test]
+pytest
+pytest-timeout
+pytest-cov
+pytest-asyncio
+pytest-trio
+ioctl>=0.2.1
+
+[trio]
+trio

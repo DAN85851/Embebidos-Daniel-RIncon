@@ -1,0 +1,17 @@
+argh/__init__.py,sha256=_p1XEAQqpj5WQX9mrwERvpmcEGBcCX1IczUEQHfBXYU,1238
+argh/assembling.py,sha256=ijpiWaA3EFVW7oVvVYR2AUFZp2Y0jR10_MUG8CypBz4,24228
+argh/completion.py,sha256=FVzC5EpJUFaOXAxPT4Amz6AUuX0vzwX_EvmY-Z8loK4,3073
+argh/constants.py,sha256=d1u9ccHQuJT-K32KAy1YGI-Jh2XwMOkQM8zUBKWgYhU,3654
+argh/decorators.py,sha256=rhFB6OeyR0aLXwN-YGuiD5-WEJ6nJGql3OYiPp2s21Q,7397
+argh/dispatching.py,sha256=WJqTQeVKtY8k7AteFEBzNJAw3nXr-RhQCUhS9k4xA1w,15022
+argh/dto.py,sha256=jkH0OFT2rK1IqP_tJa1E3ZD2D960iqw3ugPRTeH55aQ,2816
+argh/exceptions.py,sha256=y7IiNq2X4j1m-SAuXmZjUte2CC9hvfoz_AwHcC2jGrM,1795
+argh/helpers.py,sha256=vYeTv7Rb2gjxGERDjeGY4fZ3WkDj9eNbyg41R9Gt0eI,2256
+argh/interaction.py,sha256=PyoBGNMNkZG-6kr4IRkAKqztmxdBBLlHqIoqTgcFff4,2378
+argh/py.typed,sha256=syZW-cc6qNBV70MNMZIJLLYjEsOBxJ1DStKEGPXICAc,26
+argh/utils.py,sha256=9Bx-qg88-ITzT2FxuPmz91hu1viYs2m2DvFfLvLW1NA,3602
+argh-0.30.4.dist-info/COPYING,sha256=JZT0a5sjpf3eygkPrrJwx87ugRZnX-NQgr6FmqdGbok,35148
+argh-0.30.4.dist-info/COPYING.LESSER,sha256=46mU2C5kSwOnkqkw9XQAJlhBL2JAf1_uCD8lVcXyMRg,7652
+argh-0.30.4.dist-info/WHEEL,sha256=EZbGkh7Ie4PoZfRQ8I0ZuP9VklN_TvcZ6DSE5Uar4z4,81
+argh-0.30.4.dist-info/METADATA,sha256=gImCtBkLIXm1KEPjq69ntAu5BV3Zn9ylNafGYatAr94,9284
+argh-0.30.4.dist-info/RECORD,,

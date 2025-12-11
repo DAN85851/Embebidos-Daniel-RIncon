@@ -1,0 +1,17 @@
+LICENSE.txt
+MANIFEST.in
+README.rst
+pyproject.toml
+setup.cfg
+setup.py
+ifaddr/__init__.py
+ifaddr/_posix.py
+ifaddr/_shared.py
+ifaddr/_win32.py
+ifaddr/netifaces.py
+ifaddr/py.typed
+ifaddr/test_ifaddr.py
+ifaddr.egg-info/PKG-INFO
+ifaddr.egg-info/SOURCES.txt
+ifaddr.egg-info/dependency_links.txt
+ifaddr.egg-info/top_level.txt

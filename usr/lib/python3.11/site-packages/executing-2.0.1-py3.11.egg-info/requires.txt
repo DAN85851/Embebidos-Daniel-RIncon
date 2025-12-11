@@ -1,0 +1,11 @@
+
+[tests]
+asttokens>=2.1.0
+ipython
+pytest
+coverage
+coverage-enable-subprocess
+littleutils
+
+[tests:python_version >= "3.11"]
+rich

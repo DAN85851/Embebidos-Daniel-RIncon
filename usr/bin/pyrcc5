@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /workspace/buildroot/output/per-package/python-pyqt5/host/bin/python -m PyQt5.pyrcc_main ${1+"$@"}

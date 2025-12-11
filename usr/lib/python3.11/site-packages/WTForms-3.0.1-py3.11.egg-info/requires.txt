@@ -1,0 +1,4 @@
+MarkupSafe
+
+[email]
+email_validator

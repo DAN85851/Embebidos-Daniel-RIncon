@@ -1,0 +1,20 @@
+
+[:platform_system == "Windows"]
+colorama
+
+[:python_version < "3.7"]
+importlib_resources
+
+[dev]
+py-make>=0.1.0
+twine
+wheel
+
+[notebook]
+ipywidgets>=6
+
+[slack]
+slack-sdk
+
+[telegram]
+requests
