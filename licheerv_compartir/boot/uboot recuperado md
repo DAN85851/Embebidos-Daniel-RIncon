@@ -1,0 +1,82 @@
+
+
+## Overview
+This document describes the modifications made to U-Boot for the LicheeRV Nano board.
+
+## Configuration Changes
+
+### 1. Environment Storage
+Changed environment storage from nowhere to MMC to persist boot variables across reboots.
+
+CONFIG_ENV_IS_IN_MMC=y
+CONFIG_ENV_OFFSET=0x100000
+CONFIG_ENV_SIZE=0x10000
+CONFIG_SYS_MMC_ENV_DEV=0
+
+Location: 1MB offset on SD card
+Size: 64KB
+
+### 2. Memory Addressing
+Fixed device tree overlap issue by adjusting load addresses:
+
+Kernel: 0x80200000
+Device Tree: 0x82000000 (previously 0x80e00000 caused overlap)
+Ramdisk: 0x83000000
+
+### 3. Boot Process
+Configured automatic boot sequence:
+1. Load kernel Image from MMC partition 1
+2. Load device tree blob
+3. Set kernel command line arguments
+4. Execute booti command
+
+### 4. Boot Script
+Created boot.scr for automatic boot without manual intervention.
+
+Compilation command:
+mkimage -C none -A riscv -T script -d boot-script.cmd boot.scr
+
+## Problems Solved
+
+### Device Tree Overlap
+Initial configuration placed DTB at 0x80e00000 which overlapped with kernel ending at 0x813cb000.
+Solution: Moved DTB to 0x82000000.
+
+### Environment Persistence
+Default configuration did not save environment variables.
+Solution: Enabled CONFIG_ENV_IS_IN_MMC with proper offset.
+
+### Manual Boot Required
+System required manual commands in U-Boot prompt.
+Solution: Created boot.scr script for automatic execution.
+
+## Files Modified
+
+u-boot-2021.10/configs/sg2002_licheervnano_sd_defconfig
+u-boot-2021.10/include/configs/cv181x.h
+u-boot-2021.10/board/cvitek/cvi_board_init.c
+
+## Build Commands
+
+cd u-boot-2021.10
+make sg2002_licheervnano_sd_defconfig
+make ARCH=riscv CROSS_COMPILE=riscv64-unknown-linux-musl- -j4
+
+Output files:
+u-boot.bin
+fip.bin (generated with fiptool)
+
+## Testing Results
+
+Tested on LicheeRV Nano with SG2002 SoC
+UART: Working at 115200 baud
+MMC: Detected and functioning
+Boot: Automatic after 3 second delay
+Kernel: Successfully loads and executes
+
+## Future Improvements
+
+Add support for network boot (TFTP)
+Implement fallback boot from different partitions
+Add boot menu for multiple kernel options
+Enable secure boot verification
