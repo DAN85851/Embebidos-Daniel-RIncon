@@ -1,0 +1,32 @@
+
+
+echo "=== LicheeRV Nano Boot Script ==="
+echo "Loading kernel and device tree..."
+
+# Set memory addresses
+setenv kernel_addr_r 0x80200000
+setenv fdt_addr_r 0x82000000
+setenv ramdisk_addr_r 0x83000000
+
+# Load kernel
+echo "Loading Image from MMC..."
+fatload mmc 0:1 ${kernel_addr_r} Image
+if test $? -ne 0; then
+    echo "ERROR: Failed to load kernel"
+    exit
+fi
+
+# Load device tree
+echo "Loading device tree..."
+fatload mmc 0:1 ${fdt_addr_r} sg2002_licheervnano_sd.dtb
+if test $? -ne 0; then
+    echo "ERROR: Failed to load device tree"
+    exit
+fi
+
+# Set boot arguments
+setenv bootargs "console=ttyS0,115200 root=/dev/mmcblk0p2 rootfstype=ext4 rootwait rw earlycon"
+
+# Boot Linux
+echo "Starting Linux kernel..."
+booti ${kernel_addr_r} - ${fdt_addr_r}
