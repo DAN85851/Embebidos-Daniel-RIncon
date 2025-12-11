@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+import time
+import os
+
+# *** PINES LIBRES CONFIRMADOS ***
+# Elige del listado, por ejemplo de base 352:
+PIN_CS = "352"      # Para CS del receptor (activar módulo)
+PIN_DATA = "354"    # Para DATA del receptor (leer señal) - ¡353 no estaba libre!
+PIN_LED = "355"     # Para controlar el LED
+
+print(f"Configurando pines: CS=GPIO{PIN_CS}, DATA=GPIO{PIN_DATA}, LED=GPIO{PIN_LED}")
+
+# 1. ACTIVAR EL MÓDULO RECEPTOR
+os.system(f"echo {PIN_CS} > /sys/class/gpio/export")
+time.sleep(0.1)
+os.system(f"echo out > /sys/class/gpio/gpio{PIN_CS}/direction")
+os.system(f"echo 1 > /sys/class/gpio/gpio{PIN_CS}/value")
+print("Módulo receptor ACTIVADO (CS=HIGH)")
+
+# 2. CONFIGURAR PIN DE DATOS Y LED
+os.system(f"echo {PIN_DATA} > /sys/class/gpio/export")
+os.system(f"echo {PIN_LED} > /sys/class/gpio/export")
+time.sleep(0.1)
+os.system(f"echo in > /sys/class/gpio/gpio{PIN_DATA}/direction")
+os.system(f"echo out > /sys/class/gpio/gpio{PIN_LED}/direction")
+
+def control_led(estado):
+    os.system(f"echo {estado} > /sys/class/gpio/gpio{PIN_LED}/value")
+    print(f"LED {'ENCENDIDO' if estado==1 else 'APAGADO'}")
+
+# 3. BUCLE PRINCIPAL
+print("Escuchando señales... (Envía 1/0 desde Arduino)")
+ultima_señal = None
+
+try:
+    while True:
+        with open(f'/sys/class/gpio/gpio{PIN_DATA}/value', 'r') as f:
+            valor = int(f.read().strip())
+        
+        if valor == 1 and ultima_señal != 1:
+            control_led(1)
+            ultima_señal = 1
+        elif valor == 0 and ultima_señal == 1:
+            time.sleep(0.05)
+            control_led(0)
+            ultima_señal = 0
+        
+        time.sleep(0.01)
+
+except KeyboardInterrupt:
+    print("\nApagando...")
+    for pin in [PIN_CS, PIN_DATA, PIN_LED]:
+        os.system(f"echo {pin} > /sys/class/gpio/unexport 2>/dev/null")
