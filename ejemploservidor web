@@ -1,0 +1,53 @@
+#!/bin/sh
+# Simple web server for LicheeRV Nano
+# Usage: ./web-server.sh
+
+PORT=8080
+
+# Create index page
+cat > /tmp/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LicheeRV Nano Server</title>
+    <style>
+        body { font-family: Arial; margin: 40px; background: #f0f0f0; }
+        .container { background: white; padding: 20px; border-radius: 8px; }
+        h1 { color: #333; }
+        .info { background: #e3f2fd; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LicheeRV Nano Web Server</h1>
+        <div class="info">
+            <p>Board: Sipeed LicheeRV Nano</p>
+            <p>SoC: SG2002 RISC-V</p>
+            <p>Status: Running</p>
+        </div>
+        <h2>System Information</h2>
+        <pre id="sysinfo"></pre>
+        <script>
+            fetch('/sysinfo')
+                .then(r => r.text())
+                .then(data => document.getElementById('sysinfo').textContent = data);
+        </script>
+    </div>
+</body>
+</html>
+EOF
+
+# Start httpd server
+echo "Starting web server on port $PORT..."
+cd /tmp
+
+# Busybox httpd
+httpd -p $PORT -h /tmp
+
+echo "Server running at http://$(hostname -I | awk '{print $1}'):$PORT"
+echo "Press Ctrl+C to stop"
+
+# Keep script running
+while true; do
+    sleep 1
+done
