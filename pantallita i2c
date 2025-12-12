@@ -1,0 +1,93 @@
+#!/bin/sh
+# I2C OLED Display Test for LicheeRV Nano
+# SSD1306 128x64 OLED on I2C bus 0
+
+I2C_BUS=0
+I2C_ADDR=0x3C
+
+# Check I2C device
+if [ ! -e /dev/i2c-$I2C_BUS ]; then
+    echo "ERROR: I2C bus $I2C_BUS not found"
+    exit 1
+fi
+
+# Detect device
+i2cdetect -y $I2C_BUS | grep -q "3c"
+if [ $? -ne 0 ]; then
+    echo "WARNING: Device not detected at 0x3C"
+fi
+
+# Initialize SSD1306
+init_display() {
+    # Initialization sequence for SSD1306
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xAE c  # Display off
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xD5 c  # Set clock
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x80 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xA8 c  # Multiplex
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x3F c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xD3 c  # Display offset
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x00 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x40 c  # Start line
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x8D c  # Charge pump
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x14 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x20 c  # Memory mode
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x00 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xA1 c  # Segment remap
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xC8 c  # COM scan
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xDA c  # COM pins
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x12 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x81 c  # Contrast
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xCF c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xD9 c  # Precharge
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xF1 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xDB c  # VCOM detect
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x40 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xA4 c  # Display all on resume
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xA6 c  # Normal display
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xAF c  # Display on
+    echo "Display initialized"
+}
+
+# Clear display
+clear_display() {
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x21 c  # Column address
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x00 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x7F c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x22 c  # Page address
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x00 c
+    i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x07 c
+    
+    # Fill with zeros
+    for page in 0 1 2 3 4 5 6 7; do
+        for col in $(seq 0 127); do
+            i2cset -y $I2C_BUS $I2C_ADDR 0x40 0x00 c
+        done
+    done
+    echo "Display cleared"
+}
+
+# Test pattern
+test_pattern() {
+    echo "Drawing test pattern..."
+    for page in 0 1 2 3 4 5 6 7; do
+        i2cset -y $I2C_BUS $I2C_ADDR 0x00 0xB0 c
+        i2cset -y $I2C_BUS $I2C_ADDR 0x00 $((0xB0 + page)) c
+        i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x00 c
+        i2cset -y $I2C_BUS $I2C_ADDR 0x00 0x10 c
+        
+        for col in $(seq 0 127); do
+            i2cset -y $I2C_BUS $I2C_ADDR 0x40 0xAA c
+        done
+    done
+    echo "Pattern drawn"
+}
+
+# Main
+echo "SSD1306 OLED Test - I2C Bus $I2C_BUS Address $I2C_ADDR"
+init_display
+sleep 1
+clear_display
+sleep 1
+test_pattern
+
+echo "Test complete"
